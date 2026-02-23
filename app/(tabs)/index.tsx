@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import { useRouter } from 'expo-router';
 import { getDashboardStats, DashboardStats } from '@/services/DashboardService';
+import auth from '@react-native-firebase/auth';
 
 const initialStats: DashboardStats = {
   totalAssets: 0,
@@ -94,7 +95,7 @@ export default function HomeScreen() {
 
       <Text style={styles.sectionTitle}>Quick Actions</Text>
       <View style={styles.actionGrid}>
-        <Pressable style={styles.actionButton} onPress={() => router.push('/fleet')}>
+        <Pressable style={styles.actionButton} onPress={() => router.push('/(tabs)/fleet')}>
           <Text style={styles.actionButtonText}>View Fleet</Text>
         </Pressable>
         <Pressable style={styles.actionButton} onPress={() => router.push('/report-issue')}>
@@ -102,6 +103,9 @@ export default function HomeScreen() {
         </Pressable>
         <Pressable style={styles.actionButton} onPress={() => router.push('/log-fuel')}>
           <Text style={styles.actionButtonText}>Log Fuel</Text>
+        </Pressable>
+        <Pressable style={styles.actionButton} onPress={() => auth().signOut()}>
+          <Text style={styles.actionButtonText}>Sign Out</Text>
         </Pressable>
       </View>
     </ScrollView>

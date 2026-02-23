@@ -5,19 +5,28 @@ import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import auth from '@react-native-firebase/auth';
 
-export default function LoginScreen() {
+export default function SignupScreen() {
   const router = useRouter();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const onLogin = async () => {
+  const onSignup = async () => {
     try {
       setIsSubmitting(true);
-      await auth().signInWithEmailAndPassword(email.trim(), password);
+      if (!email.trim() || !password) {
+        Alert.alert('Sign Up Failed', 'Email and password are required.');
+        return;
+      }
+      if (password !== confirmPassword) {
+        Alert.alert('Sign Up Failed', 'Passwords do not match.');
+        return;
+      }
+      await auth().createUserWithEmailAndPassword(email.trim(), password);
       router.replace('/(tabs)');
     } catch (err) {
-      Alert.alert('Login Failed', 'Invalid username or password.');
+      Alert.alert('Sign Up Failed', 'Unable to create account.');
     } finally {
       setIsSubmitting(false);
     }
@@ -27,9 +36,9 @@ export default function LoginScreen() {
     <ThemedView style={styles.container}>
       <View style={styles.card}>
         <ThemedText type="title" style={styles.title}>
-          Fleet Management App
+          Create Account
         </ThemedText>
-        <ThemedText style={styles.subtitle}>Sign in to continue</ThemedText>
+        <ThemedText style={styles.subtitle}>Get started with your fleet</ThemedText>
 
         <TextInput
           value={email}
@@ -46,17 +55,24 @@ export default function LoginScreen() {
           secureTextEntry
           style={styles.input}
         />
+        <TextInput
+          value={confirmPassword}
+          onChangeText={setConfirmPassword}
+          placeholder="Confirm Password"
+          secureTextEntry
+          style={styles.input}
+        />
 
-        <Pressable style={styles.button} onPress={onLogin} disabled={isSubmitting}>
+        <Pressable style={styles.button} onPress={onSignup} disabled={isSubmitting}>
           {isSubmitting ? (
             <ActivityIndicator color="#ffffff" />
           ) : (
-            <ThemedText style={styles.buttonText}>Login</ThemedText>
+            <ThemedText style={styles.buttonText}>Sign Up</ThemedText>
           )}
         </Pressable>
 
-        <Pressable style={styles.linkButton} onPress={() => router.push('/(screens)/SignupScreen')}>
-          <ThemedText style={styles.linkText}>Create an account</ThemedText>
+        <Pressable style={styles.linkButton} onPress={() => router.back()}>
+          <ThemedText style={styles.linkText}>Back to Login</ThemedText>
         </Pressable>
       </View>
     </ThemedView>
@@ -101,6 +117,10 @@ const styles = StyleSheet.create({
     marginTop: 4,
     minHeight: 44,
   },
+  buttonText: {
+    color: '#ffffff',
+    fontWeight: '700',
+  },
   linkButton: {
     marginTop: 12,
     alignItems: 'center',
@@ -108,9 +128,5 @@ const styles = StyleSheet.create({
   linkText: {
     color: '#0a7ea4',
     fontWeight: '600',
-  },
-  buttonText: {
-    color: '#ffffff',
-    fontWeight: '700',
   },
 });
