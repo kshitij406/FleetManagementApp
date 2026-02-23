@@ -43,3 +43,6 @@ app-example
 /android
 
 /config
+.env.ts
+.firebase.js
+config
