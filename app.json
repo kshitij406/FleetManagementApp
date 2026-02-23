@@ -45,6 +45,10 @@
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
+    },
+    "extra": {
+      "appEnv": "development",
+      "apiBaseUrl": "http://10.0.2.2:5276/api"
     }
   }
 }

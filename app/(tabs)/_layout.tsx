@@ -1,10 +1,9 @@
 import { Tabs } from 'expo-router';
-import React from 'react';
-
-import { HapticTab } from '@/components/haptic-tab';
-import { IconSymbol } from '@/components/ui/icon-symbol';
 import { Colors } from '@/constants/theme';
 import { useColorScheme } from '@/hooks/use-color-scheme';
+// Import MaterialIcons instead
+import { MaterialIcons } from '@expo/vector-icons'; 
+import AntDesign from '@expo/vector-icons/AntDesign';
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
@@ -14,29 +13,38 @@ export default function TabLayout() {
       screenOptions={{
         tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
         headerShown: false,
-        tabBarButton: HapticTab,
       }}>
+      
       <Tabs.Screen
         name="index"
         options={{
-          title: 'Home',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="house.fill" color={color} />,
+          title: 'Dashboard',
+          tabBarIcon: ({ color }) => (
+            <MaterialIcons name="home" size={24} color={color} />
+          ),
         }}
       />
+      
       <Tabs.Screen
-        name="explore"
+        name="fleet"
         options={{
-          title: 'Explore',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="folder.fill" color={color} />,
+          title: 'Fleet',
+          tabBarIcon: ({ color }) => (
+            <AntDesign name="car" size={24} color="black" />
+          ),
         }}
       />
+      
       <Tabs.Screen
-        name="profile" // MUST match the filename created in Step 1 (profile.tsx)
+        name="work-orders"
         options={{
-          title: 'Profile',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="magnifyingglass" color={color} />,
+          title: 'Work Orders',
+          tabBarIcon: ({ color }) => (
+            <MaterialIcons name="assignment" size={24} color={color} />
+          ),
         }}
       />
+      
     </Tabs>
   );
 }
