@@ -1,6 +1,8 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { View, Text, FlatList, ActivityIndicator, StyleSheet, RefreshControl } from 'react-native';
+import { View, FlatList, ActivityIndicator, StyleSheet, RefreshControl } from 'react-native';
 import { getWorkOrders, WorkOrder } from '@/services/WorkOrderService';
+import { ThemedText } from '@/components/themed-text';
+import { ThemedView } from '@/components/themed-view';
 
 export default function WorkOrdersScreen() {
   const [workOrders, setWorkOrders] = useState<WorkOrder[]>([]);
@@ -27,14 +29,14 @@ export default function WorkOrdersScreen() {
 
   if (loading) {
     return (
-      <View style={styles.center}>
-        <ActivityIndicator size="large" color="#0000ff" />
-      </View>
+      <ThemedView style={styles.center}>
+        <ActivityIndicator size="large" />
+      </ThemedView>
     );
   }
 
   return (
-    <View style={styles.container}>
+    <ThemedView style={styles.container}>
       <FlatList
         data={workOrders}
         keyExtractor={(item) => item.id.toString()}
@@ -50,47 +52,49 @@ export default function WorkOrdersScreen() {
         }
         ListHeaderComponent={
           <View style={styles.headerBlock}>
-            <Text style={styles.headerTitle}>Active Work Orders</Text>
+            <ThemedText type="title" style={styles.headerTitle}>
+              Active Work Orders
+            </ThemedText>
             {error && (
-              <View style={styles.errorBanner}>
-                <Text style={styles.errorText}>Unable to load work orders.</Text>
-                <Text style={styles.errorSubText}>{error}</Text>
-              </View>
+              <ThemedView style={styles.errorBanner} lightColor="#fdecea" darkColor="#3a1f1f">
+                <ThemedText style={styles.errorText}>Unable to load work orders.</ThemedText>
+                <ThemedText style={styles.errorSubText}>{error}</ThemedText>
+              </ThemedView>
             )}
           </View>
         }
         ListEmptyComponent={
           error ? null : (
-            <View style={styles.emptyState}>
-              <Text style={styles.emptyTitle}>No work orders</Text>
-              <Text style={styles.emptySubtitle}>You are all caught up.</Text>
-            </View>
+            <ThemedView style={styles.emptyState} lightColor="#ffffff" darkColor="#1c1c1e">
+              <ThemedText style={styles.emptyTitle}>No work orders</ThemedText>
+              <ThemedText style={styles.emptySubtitle}>You are all caught up.</ThemedText>
+            </ThemedView>
           )
         }
         renderItem={({ item }) => (
-          <View style={styles.card}>
+          <ThemedView style={styles.card} lightColor="#ffffff" darkColor="#1c1c1e">
             <View style={styles.cardHeader}>
-              <Text style={styles.title}>{item.title}</Text>
+              <ThemedText style={styles.title}>{item.title}</ThemedText>
               <View style={[styles.badge, getPriorityStyle(item.priority)]}>
-                <Text style={styles.badgeText}>{item.priority}</Text>
+                <ThemedText style={styles.badgeText}>{item.priority}</ThemedText>
               </View>
             </View>
             
-            <Text style={styles.subtitle}>Asset ID: {item.assetId}</Text>
-            <Text style={styles.description} numberOfLines={2}>
+            <ThemedText style={styles.subtitle}>Asset ID: {item.assetId}</ThemedText>
+            <ThemedText style={styles.description} numberOfLines={2}>
               {item.description}
-            </Text>
+            </ThemedText>
             
             <View style={styles.footer}>
-              <Text style={styles.dateText}>
+              <ThemedText style={styles.dateText}>
                 Opened: {item.openedAt.toLocaleDateString()}
-              </Text>
-              <Text style={styles.statusText}>{item.status}</Text>
+              </ThemedText>
+              <ThemedText style={styles.statusText}>{item.status}</ThemedText>
             </View>
-          </View>
+          </ThemedView>
         )}
       />
-    </View>
+    </ThemedView>
   );
 }
 
@@ -119,15 +123,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   headerTitle: {
-    fontSize: 24,
-    fontWeight: 'bold',
     marginBottom: 16,
   },
   headerBlock: {
     marginBottom: 4,
   },
   errorBanner: {
-    backgroundColor: '#fdecea',
     borderRadius: 8,
     padding: 12,
     marginBottom: 12,
@@ -145,7 +146,6 @@ const styles = StyleSheet.create({
   emptyState: {
     padding: 24,
     borderRadius: 8,
-    backgroundColor: '#fff',
     alignItems: 'center',
   },
   emptyTitle: {
@@ -158,7 +158,6 @@ const styles = StyleSheet.create({
     color: '#666',
   },
   card: {
-    backgroundColor: '#fff',
     marginVertical: 8,
     borderRadius: 8,
     padding: 16,
@@ -187,7 +186,8 @@ const styles = StyleSheet.create({
   badgeText: {
     color: '#fff',
     fontSize: 12,
-    fontWeight: 'bold',
+    fontWeight: '700',
+    textTransform: 'capitalize',
   },
   subtitle: {
     fontSize: 14,
@@ -209,11 +209,9 @@ const styles = StyleSheet.create({
   },
   dateText: {
     fontSize: 12,
-    color: '#999',
   },
   statusText: {
     fontSize: 12,
-    fontWeight: 'bold',
-    color: '#333',
+    fontWeight: '600',
   },
 });

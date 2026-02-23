@@ -1,8 +1,7 @@
 import { Tabs } from 'expo-router';
 import { Colors } from '@/constants/theme';
 import { useColorScheme } from '@/hooks/use-color-scheme';
-// Import MaterialIcons instead
-import { MaterialIcons } from '@expo/vector-icons'; 
+import { MaterialIcons } from '@expo/vector-icons';
 import AntDesign from '@expo/vector-icons/AntDesign';
 
 export default function TabLayout() {
@@ -18,7 +17,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="index"
         options={{
-          title: 'Dashboard',
+          title: 'Home',
           tabBarIcon: ({ color }) => (
             <MaterialIcons name="home" size={24} color={color} />
           ),
@@ -30,7 +29,7 @@ export default function TabLayout() {
         options={{
           title: 'Fleet',
           tabBarIcon: ({ color }) => (
-            <AntDesign name="car" size={24} color="black" />
+            <AntDesign name="car" size={24} color={color} />
           ),
         }}
       />
