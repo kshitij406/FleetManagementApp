@@ -7,7 +7,11 @@ export interface TokenResponse {
     ".expires": string;
 }
 
-const TOKEN_URL = "http://cube.splendidtechone.com:41053/PCZMApi/token";
+const TOKEN_URL = process.env.EXPO_PUBLIC_TOKEN_URL;
+const TOKEN_BODY = "username=" + encodeURIComponent(process.env.EXPO_PUBLIC_API_USERNAME || "") +
+    "&password=" + encodeURIComponent(process.env.EXPO_PUBLIC_API_PASSWORD || "") +
+    "&ClientId=" + encodeURIComponent(process.env.EXPO_PUBLIC_API_CLIENT_ID || "") +
+    "&grant_type=password";
 
 export const getAccessToken = async (): Promise<TokenResponse | null> => {
     try {
@@ -17,7 +21,7 @@ export const getAccessToken = async (): Promise<TokenResponse | null> => {
                 'Accept': 'application/json', 
                 'Content-Type': "text/plain",
             },
-            body: "username=admin2&password=admin2&ClientId=1111&grant_type=password",
+            body: TOKEN_BODY,
         });
 
         if (!response.ok) {

@@ -22,6 +22,8 @@ dotnet run
 
 Mobile App (React Native Expo)
 
+Copy `.env.example` to `.env` and fill in the token URL and API credentials. Credentials are never committed.
+
 ```bash
 cd path/to/learning_react
 npm install

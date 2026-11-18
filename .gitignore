@@ -48,3 +48,7 @@ app-example
 .env.*
 .firebase.js
 config
+
+# local env files
+.env
+.env*.local

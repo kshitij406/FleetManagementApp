@@ -37,7 +37,11 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getAccessToken = void 0;
-var TOKEN_URL = "http://cube.splendidtechone.com:41053/PCZMApi/token";
+var TOKEN_URL = process.env.EXPO_PUBLIC_TOKEN_URL;
+var TOKEN_BODY = "username=" + encodeURIComponent(process.env.EXPO_PUBLIC_API_USERNAME || "") +
+    "&password=" + encodeURIComponent(process.env.EXPO_PUBLIC_API_PASSWORD || "") +
+    "&ClientId=" + encodeURIComponent(process.env.EXPO_PUBLIC_API_CLIENT_ID || "") +
+    "&grant_type=password";
 var getAccessToken = function () { return __awaiter(void 0, void 0, void 0, function () {
     var response, data, error_1;
     return __generator(this, function (_a) {
@@ -50,7 +54,7 @@ var getAccessToken = function () { return __awaiter(void 0, void 0, void 0, func
                             'Accept': 'application/json',
                             'Content-Type': "text/plain",
                         },
-                        body: "username=admin2&password=admin2&ClientId=1111&grant_type=password",
+                        body: TOKEN_BODY,
                     })];
             case 1:
                 response = _a.sent();
